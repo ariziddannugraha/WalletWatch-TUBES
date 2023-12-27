@@ -23,6 +23,7 @@ public class Database {
     static Connection conn;
     static Statement stmt;
     static ResultSet rs;
+    static ResultSet result;
 
     public Database() throws SQLException{
         try{
@@ -33,6 +34,9 @@ public class Database {
             JOptionPane.showMessageDialog(null,""+e.getMessage(),"Connection Error",JOptionPane.WARNING_MESSAGE);
         }
     }
+    public Connection getConnection() {
+        return conn;
+    }
     public ResultSet getData(String SQLString){
         try{
             rs = stmt.executeQuery(SQLString);
@@ -42,20 +46,7 @@ public class Database {
         }
         return rs; 
    }
-   public void insertData(String nim, String nama, String prodi){
-       try{
-           String sql = "INSERT INTO mahasiswa (nim, nama, prodi) VALUES (?, ?, ?)";
-           PreparedStatement preparedStatement = conn.prepareStatement(sql);
-           preparedStatement.setString(1, nim);
-           preparedStatement.setString(2, nama);
-           preparedStatement.setString(3, prodi);
-           preparedStatement.executeUpdate();
-           System.out.println("Data berhasil dimasukan ke dalam tabel");
-       } catch (Exception e){
-           System.out.println("Terdapat kesalahan saat proses memasukan data ke dalam table.");
-       }
-   }
-     
+    
     public ResultSet executeQuery(String SQLString){
         try{
             rs = stmt.executeQuery(SQLString);
@@ -63,6 +54,14 @@ public class Database {
             JOptionPane.showMessageDialog(null, "Error : " + e.getMessage(), "Communication Error", JOptionPane.WARNING_MESSAGE);
         }
         return rs;
+    }
+    
+    public void query(String SQLString){
+        try{
+            stmt.executeQuery(SQLString);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error : " + e.getMessage(), "Communication Error", JOptionPane.WARNING_MESSAGE);
+        }
     }
     
     public int executeUpdate(String sql) throws SQLException {

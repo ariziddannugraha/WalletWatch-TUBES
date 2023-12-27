@@ -215,7 +215,7 @@ public class Register extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Password tidak sama", 
                                    "ERROR", JOptionPane.ERROR_MESSAGE);
             } else{
-                User user = new User(nama, email, password);
+                User user = new User(null, nama, email, password);
                 signUpButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

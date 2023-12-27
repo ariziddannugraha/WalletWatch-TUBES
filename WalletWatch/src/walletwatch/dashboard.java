@@ -6,18 +6,45 @@ package walletwatch;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
 
 /**
  *
  * @author Vivobook
  */
 public class dashboard extends javax.swing.JFrame {
-
+    User user = Login.getUser();
+    String id = Login.getUserId();
+    
+    DefaultTableModel IncomeModel;
+    DefaultTableModel OutcomeModel;
+    DefaultTableModel Model;
     /**
      * Creates new form dashboard
      */
     public dashboard() {
         initComponents();
+        
+        String [] judul = {"nama","nominal"};
+        IncomeModel = new DefaultTableModel(judul,0);
+        tablePemasukan.setModel(IncomeModel);
+        updateTablePemasukan();
+        
+        String [] judul1 = {"nama","nominal"};
+        OutcomeModel = new DefaultTableModel(judul1,0);
+        tablePengeluaran.setModel(OutcomeModel);
+        updateTablePengeluaran();
+        
+        String [] judul2 = {"nama","nominal","deskripsi"};
+        Model = new DefaultTableModel(judul2,0);
+        tableRiwayat.setModel(Model);
+        updateTableUtama();
+        updateNominal();
     }
 
     /**
@@ -39,7 +66,7 @@ public class dashboard extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tableRiwayat = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -112,27 +139,22 @@ public class dashboard extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(150, 150, 150)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tambahPemasukan1)
                 .addGap(60, 60, 60)
                 .addComponent(tambahPengeluaran1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(72, 72, 72))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(60, 60, 60)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(tambahPengeluaran1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(tambahPemasukan1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(57, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(tambahPengeluaran1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tambahPemasukan1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
@@ -145,7 +167,7 @@ public class dashboard extends javax.swing.JFrame {
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel17.setText("Nama");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tableRiwayat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -177,7 +199,7 @@ public class dashboard extends javax.swing.JFrame {
                 "Riwayat Transaksi", "Nominal", "Keterangan"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tableRiwayat);
 
         jPanel6.setBackground(new java.awt.Color(0, 153, 51));
 
@@ -187,7 +209,6 @@ public class dashboard extends javax.swing.JFrame {
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel19.setText("jLabel19");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -219,7 +240,7 @@ public class dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -329,8 +350,11 @@ public class dashboard extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(tambahPemasukan2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(tambahPemasukan2)
+                                .addGap(18, 18, 18)
+                                .addComponent(hapusPemasukan)))
                         .addGap(47, 47, 47)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -338,8 +362,7 @@ public class dashboard extends javax.swing.JFrame {
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hapusPemasukan))))
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(78, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -362,15 +385,11 @@ public class dashboard extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(tambahPemasukan2)
-                        .addContainerGap(71, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(hapusPemasukan)
-                        .addGap(60, 60, 60))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(hapusPemasukan)
+                    .addComponent(tambahPemasukan2))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Pemasukan", jPanel3);
@@ -441,6 +460,11 @@ public class dashboard extends javax.swing.JFrame {
         });
 
         hapusPengeluaran.setText("Hapus");
+        hapusPengeluaran.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hapusPengeluaranActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -452,7 +476,10 @@ public class dashboard extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(tambahPengeluaran2)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(tambahPengeluaran2)
+                                .addGap(18, 18, 18)
+                                .addComponent(hapusPengeluaran))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(47, 47, 47)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -461,7 +488,6 @@ public class dashboard extends javax.swing.JFrame {
                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hapusPengeluaran)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(78, Short.MAX_VALUE))
         );
@@ -526,7 +552,7 @@ public class dashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -535,25 +561,14 @@ public class dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tambahPemasukan2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahPemasukan2ActionPerformed
-        int column = 0;
-        int row = tablePemasukan.getSelectedRow();
-        String value = tablePemasukan.getModel().getValueAt(row, column).toString();
+        Pemasukan editPopup = new Pemasukan();
+        editPopup.setVisible(true);
         
-        if(value != null){
-            Pemasukan editPopup = new Pemasukan(this, true);
-            editPopup.setVisible(true);
-        }
     }//GEN-LAST:event_tambahPemasukan2ActionPerformed
 
     private void tambahPengeluaran2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahPengeluaran2ActionPerformed
-        int column = 0;
-        int row = tablePengeluaran.getSelectedRow();
-        String value = tablePengeluaran.getModel().getValueAt(row, column).toString();
-        
-        if(value != null){
-            Pemasukan editPopup = new Pemasukan(this, true);
-            editPopup.setVisible(true);
-        }
+        Pengeluaran editPopup = new Pengeluaran();
+        editPopup.setVisible(true);
     }//GEN-LAST:event_tambahPengeluaran2ActionPerformed
 
     private void tambahPemasukan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahPemasukan1ActionPerformed
@@ -566,15 +581,205 @@ public class dashboard extends javax.swing.JFrame {
 
     private void tablePengeluaranMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePengeluaranMouseClicked
         // TODO add your handling code here:
+        try {
+            Database db = new Database();
+            String selectedName = tablePengeluaran.getValueAt(tablePengeluaran.getSelectedRow(), 0).toString();
+            String sql = "SELECT * FROM `outcome` WHERE `nama` = '"+selectedName+"';";
+            ResultSet rs = db.getData(sql);
+            
+            while(rs.next()){
+                jLabel11.setText(rs.getString("nama"));
+                jLabel13.setText(rs.getString("nominal"));
+                jLabel15.setText(rs.getString("deskripsi"));
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_tablePengeluaranMouseClicked
 
     private void tablePemasukanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePemasukanMouseClicked
         // TODO add your handling code here:
+        try {
+            Database db = new Database();
+            String selectedName = tablePemasukan.getValueAt(tablePemasukan.getSelectedRow(), 0).toString();
+            String sql = "SELECT * FROM `income` WHERE `nama` = '"+selectedName+"';";
+            ResultSet rs = db.getData(sql);
+            
+            while(rs.next()){
+                jLabel4.setText(rs.getString("nama"));
+                jLabel6.setText(rs.getString("nominal"));
+                jLabel8.setText(rs.getString("deskripsi"));
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_tablePemasukanMouseClicked
 
     private void hapusPemasukanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusPemasukanActionPerformed
         // TODO add your handling code here:
+        try {
+            Database db = new Database();
+            int selectedRow = tablePemasukan.getSelectedRow();
+            String selectedName = tablePemasukan.getValueAt(selectedRow, 0).toString();
+        
+            // SQL command to delete the selected task by name
+            String sql = "DELETE FROM `income` WHERE `nama` = ?";
+            PreparedStatement pstmt = db.getConnection().prepareStatement(sql);
+            pstmt.setString(1, selectedName);
+        
+            int deletedRows = pstmt.executeUpdate();
+        
+            if (deletedRows > 0) {
+                // Remove the row from the table if deletion was successful
+                DefaultTableModel model = (DefaultTableModel) tablePemasukan.getModel();
+                model.removeRow(selectedRow);
+
+                jLabel4.setText(""); // Clear name
+                jLabel6.setText(""); // Clear priority
+                jLabel8.setText(""); // Clear description
+            }
+        
+            pstmt.close();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_hapusPemasukanActionPerformed
+
+    private void hapusPengeluaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusPengeluaranActionPerformed
+        // TODO add your handling code here:
+        try {
+            Database db = new Database();
+            int selectedRow = tablePengeluaran.getSelectedRow();
+            String selectedName = tablePengeluaran.getValueAt(selectedRow, 0).toString();
+        
+            // SQL command to delete the selected task by name
+            String sql = "DELETE FROM `outcome` WHERE `nama` = ?";
+            PreparedStatement pstmt = db.getConnection().prepareStatement(sql);
+            pstmt.setString(1, selectedName);
+        
+            int deletedRows = pstmt.executeUpdate();
+        
+            if (deletedRows > 0) {
+                // Remove the row from the table if deletion was successful
+                DefaultTableModel model = (DefaultTableModel) tablePengeluaran.getModel();
+                model.removeRow(selectedRow);
+
+                jLabel11.setText(""); // Clear name
+                jLabel13.setText(""); // Clear priority
+                jLabel15.setText(""); // Clear description
+            }
+        
+            pstmt.close();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_hapusPengeluaranActionPerformed
+
+    private void updateTableUtama() {
+        DefaultTableModel model = (DefaultTableModel) tableRiwayat.getModel();
+        model.setRowCount(0);
+
+        try {
+            Database db = new Database();
+            String sql = "SELECT 'income' AS transaction_type, nama, nominal, deskripsi FROM income WHERE user_id = '" + id + "' " +
+                         "UNION " +
+                         "SELECT 'outcome' AS transaction_type, nama, nominal, deskripsi FROM outcome WHERE user_id = '" + id + "'";
+            ResultSet rs = db.getData(sql);
+
+            while (rs.next()) {
+                String nama = rs.getString("nama");
+                String nominal = rs.getString("nominal");
+                String transactionType = rs.getString("transaction_type");
+
+                // Set deskripsi based on transaction type
+                String deskripsi;
+                if ("income".equals(transactionType)) {
+                    deskripsi = "pemasukan";
+                } else if ("outcome".equals(transactionType)) {
+                    deskripsi = "pengeluaran";
+                } else {
+                    deskripsi = "Unknown"; // Handle unknown types if needed
+                }
+
+                String data[] = {nama, nominal, deskripsi};
+                model.addRow(data);
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void updateTablePemasukan(){
+        DefaultTableModel model = (DefaultTableModel) tablePemasukan.getModel();
+        model.setRowCount(0);
+        try {
+            Database db = new Database();
+            String sql = "SELECT * FROM `income` WHERE `user_id` = '" + id + "'";
+            ResultSet rs = db.getData(sql);
+            while(rs.next()){
+                String data[] = {rs.getString("nama"),rs.getString("nominal")};
+                model.addRow(data);
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void updateTablePengeluaran(){
+        DefaultTableModel model2 = (DefaultTableModel) tablePengeluaran.getModel();
+        model2.setRowCount(0);
+        try {
+            Database db = new Database();
+            String sql = "SELECT * FROM `outcome` WHERE `user_id` = '" + id + "'";
+            ResultSet rs = db.getData(sql);
+            while(rs.next()){
+                String data[] = {rs.getString("nama"),rs.getString("nominal")};
+                model2.addRow(data);
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void updateNominal(){
+        try{
+            Database db = new Database();
+            
+            String sqlIncome = "SELECT SUM(nominal) AS nominal FROM income WHERE user_id = "+ id +";";
+            String sqlOutcome = "SELECT SUM(nominal) AS nominal FROM outcome WHERE user_id = "+ id +";";
+            double totalIncome = 0;
+            double totalOutcome = 0;
+            
+            ResultSet income = db.getData(sqlIncome);
+            if (income.next()){
+                String result = income.getString("nominal");
+                if (result == null){
+                    totalIncome = 0;
+                } else {
+                    totalIncome = Double.parseDouble(result);
+                }
+            }
+            income.close();
+            
+            ResultSet outcome = db.getData(sqlOutcome);
+            if (outcome.next()){
+                String result = outcome.getString("nominal");
+                if (result == null){
+                    totalOutcome = 0;
+                } else {
+                    totalOutcome = Double.parseDouble(result);
+                }
+            }
+            outcome.close();
+            
+            double total = totalIncome - totalOutcome;
+            String formattedTotal = String.valueOf(total);
+            jLabel19.setText(formattedTotal);
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
+    
 
     /**
      * @param args the command line arguments
@@ -644,9 +849,9 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable tablePemasukan;
     private javax.swing.JTable tablePengeluaran;
+    private javax.swing.JTable tableRiwayat;
     private javax.swing.JButton tambahPemasukan1;
     private javax.swing.JButton tambahPemasukan2;
     private javax.swing.JButton tambahPengeluaran1;

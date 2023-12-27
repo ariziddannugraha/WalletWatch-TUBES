@@ -4,12 +4,17 @@
  */
 package walletwatch;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author Vivobook
  */
-public class Pengeluaran extends javax.swing.JDialog {
-
+public class Pengeluaran extends javax.swing.JFrame {
+    String id = Login.getUserId();
     /**
      * Creates new form Pengeluaran
      */
@@ -32,14 +37,12 @@ public class Pengeluaran extends javax.swing.JDialog {
         jPanel6 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jButton9 = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
-        jTextField12 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
-        jTextField14 = new javax.swing.JTextField();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        namaOutcome = new javax.swing.JTextField();
+        nomOutcome = new javax.swing.JTextField();
+        DescOutcome = new javax.swing.JTextField();
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 51));
 
@@ -70,13 +73,13 @@ public class Pengeluaran extends javax.swing.JDialog {
 
         jLabel15.setText("Nominal                 :");
 
-        jButton9.setBackground(new java.awt.Color(0, 153, 0));
-        jButton9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Add");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setBackground(new java.awt.Color(0, 153, 0));
+        addButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        addButton.setForeground(new java.awt.Color(255, 255, 255));
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
@@ -89,21 +92,21 @@ public class Pengeluaran extends javax.swing.JDialog {
             }
         });
 
-        jTextField12.addActionListener(new java.awt.event.ActionListener() {
+        namaOutcome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField12ActionPerformed(evt);
+                namaOutcomeActionPerformed(evt);
             }
         });
 
-        jTextField13.addActionListener(new java.awt.event.ActionListener() {
+        nomOutcome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField13ActionPerformed(evt);
+                nomOutcomeActionPerformed(evt);
             }
         });
 
-        jTextField14.addActionListener(new java.awt.event.ActionListener() {
+        DescOutcome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField14ActionPerformed(evt);
+                DescOutcomeActionPerformed(evt);
             }
         });
 
@@ -122,11 +125,11 @@ public class Pengeluaran extends javax.swing.JDialog {
                             .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DescOutcome, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField13)
-                                .addComponent(jTextField12)
-                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(nomOutcome)
+                                .addComponent(namaOutcome)
+                                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -134,7 +137,7 @@ public class Pengeluaran extends javax.swing.JDialog {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(namaOutcome, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -142,13 +145,13 @@ public class Pengeluaran extends javax.swing.JDialog {
                         .addComponent(jLabel15))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(nomOutcome, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16)
-                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DescOutcome, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addComponent(jButton10)
                 .addGap(41, 41, 41))
@@ -193,25 +196,38 @@ public class Pengeluaran extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        String nama = namaOutcome.getText();
+        String nominal = nomOutcome.getText();
+        String deskripsi = DescOutcome.getText();
+    
+        Outcome newOutcome = new Outcome(nama,nominal,deskripsi);
 
-    }//GEN-LAST:event_jButton9ActionPerformed
+        try {
+            Database db = new Database();
+            String sql = "INSERT INTO `outcome` (`outcome_id`, `user_id`, `nama`, `nominal`, `deskripsi`) VALUES (NULL, '" +id+ "', '" + nama + "', '" + nominal + "', '" + deskripsi + "');";
+            db.executeUpdate(sql);
+            dispose();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(Pengeluaran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        
+        dispose();
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
+    private void namaOutcomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaOutcomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField12ActionPerformed
+    }//GEN-LAST:event_namaOutcomeActionPerformed
 
-    private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
+    private void nomOutcomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomOutcomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField13ActionPerformed
+    }//GEN-LAST:event_nomOutcomeActionPerformed
 
-    private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
+    private void DescOutcomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescOutcomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField14ActionPerformed
+    }//GEN-LAST:event_DescOutcomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,8 +265,9 @@ public class Pengeluaran extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField DescOutcome;
+    private javax.swing.JButton addButton;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -258,8 +275,7 @@ public class Pengeluaran extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
+    private javax.swing.JTextField namaOutcome;
+    private javax.swing.JTextField nomOutcome;
     // End of variables declaration//GEN-END:variables
 }

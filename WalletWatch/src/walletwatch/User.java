@@ -4,10 +4,6 @@
  */
 package walletwatch;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 /**
  *
  * @author arizi
@@ -17,17 +13,18 @@ public class User {
     private String nama;
     private String email;
     private String password;
-    private int id;
+    private String id;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public User(String nama, String email, String password) {
+    public User(String id, String nama, String email, String password) {
+        this.id = id;
         this.nama = nama;
         this.email = email;
         this.password = password;

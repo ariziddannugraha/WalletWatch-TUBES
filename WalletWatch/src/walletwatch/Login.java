@@ -19,7 +19,9 @@ import javax.swing.JOptionPane;
  * @author Vivobook
  */
 public class Login extends javax.swing.JFrame {
-
+    private static User user;
+    private static String id;
+    
     /**
      * Creates new form Login
      */
@@ -186,10 +188,28 @@ public class Login extends javax.swing.JFrame {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
-
+    
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         
     }//GEN-LAST:event_registerButtonActionPerformed
+    public static User getUser(){
+        return user;
+    }
+    
+    public static String getUserId(){
+        id = "";
+        try {
+            Database db = new Database();
+            String sql = "SELECT `user_id` FROM `user` WHERE `email` = '"+user.getEmail()+"';";
+            ResultSet rs = db.getData(sql);
+            while(rs.next()){
+                id = (rs.getString("user_id"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
     
     public User login(String email, String password) throws SQLException{
         Database db = new Database();
@@ -206,7 +226,8 @@ public class Login extends javax.swing.JFrame {
 
                 // Check if the provided password matches the hashed password
                 if (Password == null ? password == null : Password.equals(password)) {
-                    User user = new User(
+                    user = new User(
+                        rs.getString("user_id"),
                         rs.getString("nama"),
                         rs.getString("email"),
                         rs.getString("password"));

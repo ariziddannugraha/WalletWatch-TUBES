@@ -4,17 +4,18 @@
  */
 package walletwatch;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author Vivobook
  */
-public class Pemasukan extends javax.swing.JDialog {
-
+public class Pemasukan extends javax.swing.JFrame {
+    String id = Login.getUserId();
     /**
      * Creates new dialog Pemasukan
      */
-    public Pemasukan(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public Pemasukan() {
         initComponents();
     }
 
@@ -33,12 +34,12 @@ public class Pemasukan extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        addPemasukan = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        namaIncome = new javax.swing.JTextField();
+        nomIncome = new javax.swing.JTextField();
+        descIncome = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,13 +74,13 @@ public class Pemasukan extends javax.swing.JDialog {
 
         jLabel6.setText("Nominal                :");
 
-        jButton3.setBackground(new java.awt.Color(0, 153, 0));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Add");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        addPemasukan.setBackground(new java.awt.Color(0, 153, 0));
+        addPemasukan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        addPemasukan.setForeground(new java.awt.Color(255, 255, 255));
+        addPemasukan.setText("Add");
+        addPemasukan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                addPemasukanActionPerformed(evt);
             }
         });
 
@@ -92,21 +93,21 @@ public class Pemasukan extends javax.swing.JDialog {
             }
         });
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        namaIncome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                namaIncomeActionPerformed(evt);
             }
         });
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        nomIncome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                nomIncomeActionPerformed(evt);
             }
         });
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        descIncome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                descIncomeActionPerformed(evt);
             }
         });
 
@@ -125,11 +126,11 @@ public class Pemasukan extends javax.swing.JDialog {
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(descIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField4)
-                                .addComponent(jTextField3)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(nomIncome)
+                                .addComponent(namaIncome)
+                                .addComponent(addPemasukan, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(71, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -137,7 +138,7 @@ public class Pemasukan extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(namaIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -145,13 +146,13 @@ public class Pemasukan extends javax.swing.JDialog {
                         .addComponent(jLabel6))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(nomIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(descIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addPemasukan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
                 .addComponent(jButton4)
                 .addGap(41, 41, 41))
@@ -188,28 +189,39 @@ public class Pemasukan extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void addPemasukanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPemasukanActionPerformed
+        String nama = namaIncome.getText();
+        String nominal = nomIncome.getText();
+        String deskripsi = descIncome.getText();
+    
+        Income newIncome = new Income(nama,nominal,deskripsi);
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+        try {
+            Database db = new Database();
+            String sql = "INSERT INTO `income` (`income_id`, `user_id`, `nama`, `nominal`, `deskripsi`) VALUES (NULL, '" +id+ "', '" + nama + "', '" + nominal + "', '" + deskripsi + "');";
+            db.executeUpdate(sql);
+            dispose();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(Pemasukan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_addPemasukanActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        dashboard home = new dashboard();
-        home.show();
-
+        
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void namaIncomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaIncomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_namaIncomeActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void nomIncomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomIncomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_nomIncomeActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void descIncomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descIncomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_descIncomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,20 +253,14 @@ public class Pemasukan extends javax.swing.JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Pemasukan dialog = new Pemasukan(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new Pemasukan().setVisible(true);
             }
         });
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton addPemasukan;
+    private javax.swing.JTextField descIncome;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
@@ -263,8 +269,7 @@ public class Pemasukan extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField namaIncome;
+    private javax.swing.JTextField nomIncome;
     // End of variables declaration//GEN-END:variables
 }
