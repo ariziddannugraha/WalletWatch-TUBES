@@ -4,10 +4,10 @@
  */
 package walletwatch;
 
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -202,18 +202,26 @@ public class Pengeluaran extends javax.swing.JFrame {
         String deskripsi = DescOutcome.getText();
     
         Outcome newOutcome = new Outcome(nama,nominal,deskripsi);
-
-        try {
-            Database db = new Database();
-            String sql = "INSERT INTO `outcome` (`outcome_id`, `user_id`, `nama`, `nominal`, `deskripsi`) VALUES (NULL, '" +id+ "', '" + nama + "', '" + nominal + "', '" + deskripsi + "');";
-            db.executeUpdate(sql);
-            dispose();
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(Pengeluaran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        if (isOnlyNumber(nominal)){
+            try {
+                Database db = new Database();
+                String sql = "INSERT INTO `outcome` (`outcome_id`, `user_id`, `nama`, `nominal`, `deskripsi`) VALUES (NULL, '" +id+ "', '" + nama + "', '" + nominal + "', '" + deskripsi + "');";
+                db.executeUpdate(sql);
+                dispose();
+                dashboard dshb = new dashboard();
+                dshb.setVisible(true);
+            } catch (SQLException ex) {
+                java.util.logging.Logger.getLogger(Pengeluaran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Nominal harus angka!", 
+                                   "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        dashboard dsb = new dashboard();
+        dsb.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton10ActionPerformed
 
@@ -229,6 +237,16 @@ public class Pengeluaran extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_DescOutcomeActionPerformed
 
+    public static boolean isOnlyNumber(String input) {
+        String regex = "^[0-9]+$";
+        Pattern p = Pattern.compile(regex);
+        if (input == null) {
+            return false;
+        }
+        Matcher m = p.matcher(input);
+        return m.matches();
+    }
+    
     /**
      * @param args the command line arguments
      */

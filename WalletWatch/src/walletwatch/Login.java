@@ -4,8 +4,6 @@
  */
 package walletwatch;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -192,6 +190,7 @@ public class Login extends javax.swing.JFrame {
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
         
     }//GEN-LAST:event_registerButtonActionPerformed
+    
     public static User getUser(){
         return user;
     }
@@ -217,14 +216,11 @@ public class Login extends javax.swing.JFrame {
         String sql = "SELECT * FROM user WHERE email = '"+email+"'";
 
         ResultSet rs = db.executeQuery(sql);
-        
+        if (!"".equals(email)){
          if (rs.next()) {
-                // Retrieve the hashed password from the database
+                // Retrieve the password from the database
                 String Password = rs.getString("password");
                 
-//                BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword);
-
-                // Check if the provided password matches the hashed password
                 if (Password == null ? password == null : Password.equals(password)) {
                     user = new User(
                         rs.getString("user_id"),
@@ -238,6 +234,8 @@ public class Login extends javax.swing.JFrame {
             } else {
                 return null; // User not found
             }
+        }
+        return null;
     }
     
     /**

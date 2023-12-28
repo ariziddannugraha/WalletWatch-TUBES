@@ -4,10 +4,6 @@
  */
 package walletwatch;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,6 +41,14 @@ public class dashboard extends javax.swing.JFrame {
         tableRiwayat.setModel(Model);
         updateTableUtama();
         updateNominal();
+        gantiNama();        
+    }
+    
+    public void updateAll(){
+        updateTablePemasukan();
+        updateTablePengeluaran();
+        updateTableUtama();
+        updateNominal();
     }
 
     /**
@@ -64,7 +68,7 @@ public class dashboard extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        nama = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableRiwayat = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
@@ -164,8 +168,8 @@ public class dashboard extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel16.setText("Hallo,");
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel17.setText("Nama");
+        nama.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        nama.setText("Nama");
 
         tableRiwayat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -209,6 +213,7 @@ public class dashboard extends javax.swing.JFrame {
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("jLabel19");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -246,7 +251,7 @@ public class dashboard extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel17)
+                        .addComponent(nama)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -255,7 +260,7 @@ public class dashboard extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(jLabel17))
+                    .addComponent(nama))
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,18 +317,14 @@ public class dashboard extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Pemasukan:");
 
-        jLabel4.setText("jLabel4");
         jLabel4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setText("Nominal:");
 
-        jLabel6.setText("jLabel4");
-
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Deskripsi:");
 
-        jLabel8.setText("jLabel4");
         jLabel8.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         tambahPemasukan2.setText("Tambah");
@@ -438,18 +439,14 @@ public class dashboard extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel10.setText("Pengeluaran:");
 
-        jLabel11.setText("jLabel4");
         jLabel11.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel12.setText("Nominal:");
 
-        jLabel13.setText("jLabel4");
-
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel14.setText("Deskripsi:");
 
-        jLabel15.setText("jLabel4");
         jLabel15.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         tambahPengeluaran2.setText("Tambah");
@@ -507,12 +504,12 @@ public class dashboard extends javax.swing.JFrame {
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel13)
-                        .addGap(18, 18, 18)
+                        .addGap(32, 32, 32)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tambahPengeluaran2)
                     .addComponent(hapusPengeluaran))
                 .addContainerGap(75, Short.MAX_VALUE))
@@ -563,12 +560,14 @@ public class dashboard extends javax.swing.JFrame {
     private void tambahPemasukan2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahPemasukan2ActionPerformed
         Pemasukan editPopup = new Pemasukan();
         editPopup.setVisible(true);
+        dispose();
         
     }//GEN-LAST:event_tambahPemasukan2ActionPerformed
 
     private void tambahPengeluaran2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahPengeluaran2ActionPerformed
         Pengeluaran editPopup = new Pengeluaran();
         editPopup.setVisible(true);
+        dispose();
     }//GEN-LAST:event_tambahPengeluaran2ActionPerformed
 
     private void tambahPemasukan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahPemasukan1ActionPerformed
@@ -640,6 +639,7 @@ public class dashboard extends javax.swing.JFrame {
             }
         
             pstmt.close();
+            updateAll();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
@@ -670,6 +670,7 @@ public class dashboard extends javax.swing.JFrame {
             }
         
             pstmt.close();
+            updateAll();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
@@ -780,6 +781,19 @@ public class dashboard extends javax.swing.JFrame {
         }
     }
     
+    private void gantiNama(){
+        try {
+            Database db = new Database();
+            String sql = "SELECT * FROM `user` WHERE `user_id` = '" + id + "'";
+            ResultSet rs = db.getData(sql);
+            while(rs.next()){
+                String nama1 = rs.getString("nama");
+                nama.setText(nama1);
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -827,7 +841,6 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -849,6 +862,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel nama;
     private javax.swing.JTable tablePemasukan;
     private javax.swing.JTable tablePengeluaran;
     private javax.swing.JTable tableRiwayat;

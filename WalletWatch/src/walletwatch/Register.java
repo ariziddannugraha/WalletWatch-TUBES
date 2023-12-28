@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -211,19 +214,27 @@ public class Register extends javax.swing.JFrame {
         String password = new String(passwordField.getPassword());
         String repassword = new String(repasswordField.getPassword());
         
-            if (password == null ? repassword != null : !password.equals(repassword)){
+            if (checkEmail(email)){
+                JOptionPane.showMessageDialog(this, "Email sudah digunakan", 
+                                   "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else if (!truePassword(password)){
+                JOptionPane.showMessageDialog(this, "Password harus setidaknya mengandung 8 karakter, huruf besar, huruf kecil, angka, dan karakter spesial", 
+                                       "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else if (password == null ? repassword != null : !password.equals(repassword)){
                 JOptionPane.showMessageDialog(this, "Password tidak sama", 
                                    "ERROR", JOptionPane.ERROR_MESSAGE);
-            } else{
+            } else {
                 User user = new User(null, nama, email, password);
                 signUpButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        register(user);
-                        Login gin = new Login();
-                        gin.setVisible(true);
-                        dispose();
+                        if(nama == nama){
+                            register(user);
+                            Login gin = new Login();
+                            gin.setVisible(true);
+                            dispose();
+                        }
                     } catch (SQLException ex) {
                         Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -233,6 +244,35 @@ public class Register extends javax.swing.JFrame {
             }  
     }//GEN-LAST:event_signUpButtonActionPerformed
 
+    private boolean checkEmail(String email){
+        try {
+            Database db = new Database();
+            String sql = "Select email from user where email = ('"+email+"');";
+            ResultSet emailSql = db.getData(sql);
+            while (emailSql.next()){
+                String result = emailSql.getString("email");
+                if (result.equals(email)){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            emailSql.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+            
+    public static boolean truePassword(String password) {
+      String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[/.!@#$%^&+=])(?=\\S+$).{8,}";
+      Pattern p = Pattern.compile(regex);
+      if (password == null) {
+        return false;
+      }
+      Matcher m = p.matcher(password);
+      return m.matches();
+    }
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
       
     }//GEN-LAST:event_loginButtonActionPerformed
